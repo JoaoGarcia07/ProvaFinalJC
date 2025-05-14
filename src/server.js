@@ -4,13 +4,12 @@ require('dotenv').config();
 const sequelize = require('./config/database');
 
 const userRoutes = require('./routes/userRoutes');
-const protectedRoutes = require('./routes/protectedRoutes');
-const swaggerDocs = require('./swagger'); // <= importar swagger
+const productRoutes = require('./routes/productRoutes');
 
 app.use(express.json());
 
 app.use('/api/users', userRoutes);
-app.use('/api', protectedRoutes);
+app.use('/api/products', productRoutes);
 
 swaggerDocs(app); // <= inicializar Swagger em /api-docs
 
