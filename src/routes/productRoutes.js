@@ -1,18 +1,57 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../middlewares/auth'); // se quiser proteger rotas
 const productController = require('../controllers/product');
 
-// Exemplo de rota pública (sem auth)
-router.get('/', (req, res) => {
-  res.send('Lista de produtos');
-});
+/**
+ * @swagger
+ * tags:
+ *   name: Products
+ *   description: Gerenciamento de produtos
+ */
 
-// Exemplo de rota protegida (exige token JWT)
-router.post('/', auth, productController.create);
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Lista todos os produtos
+ *     tags: [Products]
+ *     responses:
+ *       200:
+ *         description: Lista de produtos
+ */
 
-// Outras rotas...
-// router.put('/:id', auth, productController.update);
-// router.delete('/:id', auth, productController.remove);
+router.get('/', productController.findAll);
+
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Cria um produto
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - price
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Produto criado
+ */
+router.post('/',  productController.create);
+router.put('/:id',  productController.update);
+router.delete('/:id',  productController.remove);
 
 module.exports = router;
