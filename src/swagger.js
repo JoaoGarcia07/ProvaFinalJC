@@ -29,7 +29,7 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes/*.js'], // onde estarão os comentários JSDoc
+  apis: ['./src/routes/*.js'], // onde estão os comentários JSDoc
 };
 
 const swaggerSpec = swaggerJSDoc(options);
