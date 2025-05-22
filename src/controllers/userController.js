@@ -33,7 +33,23 @@ async function login(req, res) {
   }
 }
 
+async function update(req, res) {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
+
+    const user = await User.findByPk(id);
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    await user.update({ name, email });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao atualizar usuário', details: err.message });
+  }
+}
+
 module.exports = {
   register,
   login,
+  update,
 };

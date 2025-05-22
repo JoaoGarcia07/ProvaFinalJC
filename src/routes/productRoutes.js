@@ -1,6 +1,3 @@
-const express = require('express');
-const router = express.Router();
-const productController = require('../controllers/product');
 
 /**
  * @swagger
@@ -20,7 +17,6 @@ const productController = require('../controllers/product');
  *         description: Lista de produtos
  */
 
-router.get('/', productController.findAll);
 
 /**
  * @swagger
@@ -50,6 +46,66 @@ router.get('/', productController.findAll);
  *       201:
  *         description: Produto criado
  */
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   put:
+ *     summary: Atualiza um produto existente
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do produto
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               description:
+ *                 type: string
+ *               CategoryId:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Produto atualizado com sucesso
+ *       404:
+ *         description: Produto não encontrado
+ */
+
+/**
+ * @swagger
+ * /api/products/{id}:
+ *   delete:
+ *     summary: Remove um produto existente
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do produto
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Produto removido com sucesso
+ *       404:
+ *         description: Produto não encontrado
+ */
+
+const express = require('express');
+const router = express.Router();
+const productController = require('../controllers/product');
+
+router.get('/', productController.findAll);
 router.post('/',  productController.create);
 router.put('/:id',  productController.update);
 router.delete('/:id',  productController.remove);

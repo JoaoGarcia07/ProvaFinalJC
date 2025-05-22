@@ -28,7 +28,7 @@ app.use('/api/orders', orderRoutes);
 swaggerDocs(app);
 
 // Sync + Start
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   console.log('DB sincronizado');
-  app.listen(3008, () => console.log('Servidor rodando na porta 3008'));
+  app.listen(3004, () => console.log('Servidor rodando na porta 3004'));
 });

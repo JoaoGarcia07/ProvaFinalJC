@@ -63,8 +63,67 @@ async function findAll(req, res) {
     res.status(500).json({ error: 'Erro ao buscar pedidos', details: err.message });
   }
 }
+async function remove(req, res) {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByPk(id);
+    if (!order) return res.status(404).json({ error: 'Pedido não encontrado' });
+
+    await order.destroy();
+    res.json({ message: 'Pedido removido com sucesso' });
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao remover pedido', details: err.message });
+  }
+}
+
+async function update(req, res) {
+  try {
+    const { id } = req.params;
+    const { status, products } = req.body;
+
+    const order = await Order.findByPk(id);
+    if (!order) return res.status(404).json({ error: 'Pedido não encontrado' });
+
+    // Atualiza status, se fornecido
+    if (status) {
+      order.status = status;
+      await order.save();
+    }
+
+    // Se quiser atualizar os produtos
+    if (Array.isArray(products)) {
+      await order.setProducts([]); // remove os atuais
+      for (const item of products) {
+        await OrderProduct.create({
+          OrderId: order.id,
+          ProductId: item.id,
+          quantity: item.quantity
+        });
+      }
+    }
+
+    const updatedOrder = await Order.findByPk(order.id, {
+      include: [
+        { model: User, attributes: ['id', 'name'] },
+        {
+          model: Product,
+          attributes: ['id', 'name', 'price'],
+          through: { attributes: ['quantity'] }
+        }
+      ]
+    });
+
+    res.json(updatedOrder);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao atualizar pedido', details: err.message });
+  }
+}
+
 
 module.exports = {
   create,
-  findAll
+  findAll,
+  remove,
+  update
 };

@@ -14,4 +14,3 @@ Order.belongsToMany(Product, { through: OrderProduct });
 Product.belongsToMany(Order, { through: OrderProduct });
 
 module.exports = OrderProduct;
-
