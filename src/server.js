@@ -30,5 +30,5 @@ swaggerDocs(app);
 // Sync + Start
 sequelize.sync().then(() => {
   console.log('DB sincronizado');
-  app.listen(3004, () => console.log('Servidor rodando na porta 3004'));
+  app.listen(3006, () => console.log('Servidor rodando na porta 3006'));
 });

@@ -1,13 +1,14 @@
 const Order = require('../models/order');
 const Product = require('../models/product');
 const User = require('../models/user');
-const OrderProduct = require('../models/orderProduct'); 
+const OrderProduct = require('../models/orderProduct');
 
+//  Cria novo pedido
 async function create(req, res) {
   try {
     const { UserId, products } = req.body;
 
-    if (!UserId || !Array.isArray(products)) {
+    if (!UserId || !Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ error: 'UserId e lista de produtos são obrigatórios' });
     }
 
@@ -23,14 +24,11 @@ async function create(req, res) {
 
     const orderWithProducts = await Order.findByPk(order.id, {
       include: [
-        {
-          model: User,
-          attributes: ['id', 'name']
-        },
+        { model: User, attributes: ['id', 'name'] },
         {
           model: Product,
           attributes: ['id', 'name', 'price'],
-          through: { attributes: ['quantity'] } 
+          through: { attributes: ['quantity'] }
         }
       ]
     });
@@ -42,14 +40,12 @@ async function create(req, res) {
   }
 }
 
+//  Lista todos os pedidos
 async function findAll(req, res) {
   try {
     const orders = await Order.findAll({
       include: [
-        {
-          model: User,
-          attributes: ['id', 'name']
-        },
+        { model: User, attributes: ['id', 'name'] },
         {
           model: Product,
           attributes: ['id', 'name', 'price'],
@@ -63,9 +59,12 @@ async function findAll(req, res) {
     res.status(500).json({ error: 'Erro ao buscar pedidos', details: err.message });
   }
 }
+
+//  Remove pedido
 async function remove(req, res) {
   try {
     const { id } = req.params;
+
     const order = await Order.findByPk(id);
     if (!order) return res.status(404).json({ error: 'Pedido não encontrado' });
 
@@ -76,6 +75,7 @@ async function remove(req, res) {
   }
 }
 
+//  Atualiza status e produtos do pedido
 async function update(req, res) {
   try {
     const { id } = req.params;
@@ -84,15 +84,13 @@ async function update(req, res) {
     const order = await Order.findByPk(id);
     if (!order) return res.status(404).json({ error: 'Pedido não encontrado' });
 
-    // Atualiza status, se fornecido
     if (status) {
       order.status = status;
       await order.save();
     }
 
-    // Se quiser atualizar os produtos
     if (Array.isArray(products)) {
-      await order.setProducts([]); // remove os atuais
+      await order.setProducts([]); // remove todos os produtos atuais
       for (const item of products) {
         await OrderProduct.create({
           OrderId: order.id,
@@ -115,11 +113,10 @@ async function update(req, res) {
 
     res.json(updatedOrder);
   } catch (err) {
-    console.error(err);
+    console.error('Erro ao atualizar pedido:', err);
     res.status(500).json({ error: 'Erro ao atualizar pedido', details: err.message });
   }
 }
-
 
 module.exports = {
   create,

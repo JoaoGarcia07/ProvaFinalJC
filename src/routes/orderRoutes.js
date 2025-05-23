@@ -83,6 +83,49 @@
  *                               type: integer
  */
 
+
+/**
+ * @swagger
+ * /api/orders/{id}:
+ *   put:
+ *     summary: Atualiza um pedido existente (status e/ou produtos)
+ *     tags: [Orders]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID do pedido
+ *         schema:
+ *           type: integer
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               status:
+ *                 type: string
+ *                 example: entregue
+ *               products:
+ *                 type: array
+ *                 description: Lista de produtos com quantidade
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: integer
+ *                       example: 1
+ *                     quantity:
+ *                       type: integer
+ *                       example: 2
+ *     responses:
+ *       200:
+ *         description: Pedido atualizado com sucesso
+ *       404:
+ *         description: Pedido não encontrado
+ */
+
 /**
  * @swagger
  * /api/orders/{id}:
