@@ -24,11 +24,17 @@ app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 
-// Swagger
 swaggerDocs(app);
 
-// Sync + Start
-sequelize.sync().then(() => {
-  console.log('DB sincronizado');
-  app.listen(3006, () => console.log('Servidor rodando na porta 3006'));
-});
+const PORT = process.env.PORT || 3000;
+
+sequelize.sync({ force: true })
+  .then(() => {
+    console.log('Banco de dados sincronizado com sucesso!');
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Erro ao sincronizar o banco de dados:', error);
+  });
