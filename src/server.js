@@ -19,18 +19,22 @@ const categoryRoutes = require('./routes/categoryRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 app.use(express.json());
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/orders', orderRoutes);
+
+app.use('/api/users', userRoutes);     
+app.use('/api/products', productRoutes); 
+app.use('/api/categories', categoryRoutes); 
+app.use('/api/orders', orderRoutes);    
 
 swaggerDocs(app);
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync({ force: true })
+// Sincroniza o banco de dados com Sequelize 
+sequelize.sync({ force: true }) 
   .then(() => {
     console.log('Banco de dados sincronizado com sucesso!');
+    
+  
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);
     });

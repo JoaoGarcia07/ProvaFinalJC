@@ -123,13 +123,14 @@ const User = require('../models/user');
 router.post('/register', userController.register);
 router.post('/login', userController.login);
 
-// ✅ Rota GET /api/users
+
 router.get('/', async (req, res) => {
   try {
+    
     const users = await User.findAll({
       attributes: ['id', 'name', 'email']
     });
-    res.json(users);
+    res.json(users); 
   } catch (err) {
     res.status(500).json({ error: 'Erro ao buscar usuários', details: err.message });
   }
@@ -138,17 +139,16 @@ router.get('/', async (req, res) => {
 router.put('/:id', userController.update);
 
 router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params; 
   try {
     const user = await User.findByPk(id);
-    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' }); 
 
-    await user.destroy();
-    res.json({ message: 'Usuário removido com sucesso' });
+    await user.destroy(); // Extermina o usuario coitado
+    res.json({ message: 'Usuário removido com sucesso' }); 
   } catch (err) {
     res.status(500).json({ error: 'Erro ao deletar usuário', details: err.message });
   }
 });
 
-module.exports = router;
-
+module.exports = router; 

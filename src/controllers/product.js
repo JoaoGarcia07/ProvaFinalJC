@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 const Category = require('../models/category');
 
-// Define o relacionamento aqui diretamente
+// Define o relacionamento 
 Product.belongsTo(Category);
 Category.hasMany(Product);
 

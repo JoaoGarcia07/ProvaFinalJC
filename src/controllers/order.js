@@ -7,7 +7,6 @@ const OrderProduct = require('../models/orderProduct');
 async function create(req, res) {
   try {
     const { UserId, products } = req.body;
-
     if (!UserId || !Array.isArray(products) || products.length === 0) {
       return res.status(400).json({ error: 'UserId e lista de produtos são obrigatórios' });
     }
