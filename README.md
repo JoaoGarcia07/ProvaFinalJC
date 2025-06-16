@@ -3,6 +3,7 @@ Este projeto foi desenvolvido como parte do meu aprendizado em desenvolvimento b
 
 Como o projeto foi desenvolvido
 Para construir este sistema, contei com:
+Pesquisa dos meus projetos que já havia feito,
 Ajuda de um colega, que me apoiou na lógica e estrutura do projeto;
 Aulas do YouTube, especialmente do canal CBF Cursos, que me ajudaram a entender os conceitos de API, rotas, Sequelize e autenticação com JWT;
 Pesquisas no Google, que foram fundamentais para tirar dúvidas pontuais, entender mensagens de erro e aprender boas práticas.
