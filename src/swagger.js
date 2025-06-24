@@ -29,7 +29,7 @@ const options = {
       },
     ],
   },
-  apis: ['./src/routes/*.js'], // onde estão os comentários JSDoc
+  apis: ['./routes/*.js'], // onde estão os comentários JSDoc
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -37,5 +37,6 @@ const swaggerSpec = swaggerJSDoc(options);
 function swaggerDocs(app) {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 }
+console.log(JSON.stringify(swaggerSpec, null, 2));
 
 module.exports = swaggerDocs;
